@@ -1,4 +1,8 @@
-node_modules
+atlassian-ide-plugin.xml
+node_modules/
+bower_components/
+.idea/
+
 package.json
 npm-debug.log
 sinopia-*.tgz
