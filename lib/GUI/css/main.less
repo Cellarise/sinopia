@@ -1,4 +1,4 @@
-//@import "../../../node_modules/helpers.less/helpers.less";
+@import "../../../node_modules/helpers.less/helpers.less";
 @import "./markdown.less";
 @import "./highlight.js.less";
 @import "./fontello.less";
@@ -63,7 +63,7 @@ h1 {
 	background: #DB4141;
 	padding: 15px 20px;
 	display: inline-block;
-	//.border-radius(4px);
+	.border-radius(4px);
 	text-align: left;
 	color: #FFF;
 	margin-top: 20px;
@@ -97,7 +97,7 @@ h1 {
 	input {
 		width: 200px;
 		height: @height;
-		//.border-box;
+		.border-box;
 		padding: 0 5px;
 		font-size: 16px;
 		border-right: 0;
@@ -125,9 +125,9 @@ h2 {
 /*** Package Entries ***/
 .entry {
 	background: #F3F3F3;
-	//.border-radius(4px);
+	.border-radius(4px);
 	padding: 12px 15px 15px;
-	//.transition(height .3s);
+	.transition(height .3s);
 	overflow: hidden;
 	margin-bottom: 12px;
 
@@ -143,11 +143,11 @@ h2 {
 	.name:before {
 		margin: 0;
 		margin-left: -10px;
-		//.transformTransition(.2s);
+		.transformTransition(.2s);
 	}
 
 	&.open .name:before {
-		//.rotate(90deg);
+		.rotate(90deg);
 	}
 
 	.version {
@@ -170,7 +170,7 @@ h2 {
 		margin-top: 10px;
 		background: #FFF;
 		padding: 10px 12px;
-		//.border-radius(3px);
+		.border-radius(3px);
 	}
 }
 
