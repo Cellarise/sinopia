@@ -1,13 +1,13 @@
-var assert = require('assert')
-  , ex = module.exports
+/* global describe, it, before */
+"use strict";
+
+var assert = require('assert');
 
 module.exports = function() {
-	var server = process.server
-	var express = process.express
+	var server = process.server;
+	var express = process.express;
 
 	describe('Incomplete', function() {
-		var on_tarball
-
 		before(function() {
 			express.get('/testexp-incomplete', function(_, res) {
 				res.send({
@@ -30,38 +30,44 @@ module.exports = function() {
 							}
 						}
 					}
-				})
-			})
-		})
+				});
+			});
+		});
 
-		;['content-length', 'chunked'].forEach(function(type) {
+		['content-length', 'chunked'].forEach(function(type) {
 			it('should not store tarballs / ' + type, function(_cb) {
-				var called
+				var called;
 				express.get('/testexp-incomplete/-/'+type+'.tar.gz', function(_, res) {
-					if (called) return res.socket.destroy()
-					called = true
-					if (type !== 'chunked') res.header('content-length', 1e6)
-					res.write('test test test\n')
+					if (called) {
+                        return res.socket.destroy();
+                    }
+					called = true;
+					if (type !== 'chunked') {
+                        res.header('content-length', 1e6);
+                    }
+					res.write('test test test\n');
 					setTimeout(function() {
-						res.socket.write('200\nsss\n')
-						res.socket.destroy()
-						cb()
-					}, 10)
-				})
+						res.socket.write('200\nsss\n');
+						res.socket.destroy();
+						cb();
+					}, 10);
+				});
 
 				server.request({uri:'/testexp-incomplete/-/'+type+'.tar.gz'}, function(err, res, body) {
-					if (type !== 'chunked') assert.equal(res.headers['content-length'], 1e6)
-					assert(body.match(/test test test/))
-				})
+					if (type !== 'chunked') {
+                        assert.equal(res.headers['content-length'], 1e6);
+                    }
+					assert(body.match(/test test test/));
+				});
 
 				function cb() {
 					server.request({uri:'/testexp-incomplete/-/'+type+'.tar.gz'}, function(err, res, body) {
-						assert.equal(body.error, 'internal server error')
-						_cb()
-					})
+						assert.equal(body.error, 'internal server error');
+						_cb();
+					});
 				}
-			})
-		})
-	})
-}
+			});
+		});
+	});
+};
 

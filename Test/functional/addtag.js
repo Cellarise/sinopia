@@ -1,58 +1,63 @@
-var assert = require('assert')
+/* global describe, it, before */
+"use strict";
 
+var assert = require('assert');
+
+/*
 function readfile(x) {
-	return require('fs').readFileSync(__dirname + '/' + x)
-}
+	return require('fs').readFileSync(__dirname + '/' + x);
+}*/
 
 module.exports = function() {
-	var server = process.server
+	var server = process.server;
 
 	it('add tag - 404', function(cb) {
 		server.add_tag('testpkg-tag', 'tagtagtag', '0.0.1', function(res, body) {
-			assert.equal(res.statusCode, 404)
-			assert(~body.error.indexOf('no such package'))
-			cb()
-		})
-	})
+			assert.equal(res.statusCode, 404);
+			assert(body.error.indexOf('no such package') >=0 );
+			cb();
+		});
+	});
 
 	describe('addtag', function() {
 		before(function(cb) {
+            /* jshint ignore:start */
 			server.put_package('testpkg-tag', eval(
 				'(' + readfile('fixtures/publish.json5')
 					.toString('utf8')
 					.replace(/__NAME__/g, 'testpkg-tag')
-					.replace(/__VERSION__/g, '0.0.1')
-				+ ')'
+					.replace(/__VERSION__/g, '0.0.1') + ')'
 			), function(res, body) {
-				assert.equal(res.statusCode, 201)
-				cb()
-			})
-		})
+				assert.equal(res.statusCode, 201);
+				cb();
+			});
+            /* jshint ignore:end */
+		});
 
-		it('add testpkg-tag', function(){})
+		it('add testpkg-tag', function(){});
 
 		it('add tag - bad ver', function(cb) {
 			server.add_tag('testpkg-tag', 'tagtagtag', '0.0.1-x', function(res, body) {
-				assert.equal(res.statusCode, 404)
-				assert(~body.error.indexOf('version doesn\'t exist'))
-				cb()
-			})
-		})
+				assert.equal(res.statusCode, 404);
+				assert(body.error.indexOf('version doesn\'t exist') >= 0);
+				cb();
+			});
+		});
 
 		it('add tag - bad tag', function(cb) {
 			server.add_tag('testpkg-tag', 'tag/tag/tag', '0.0.1-x', function(res, body) {
-				assert.equal(res.statusCode, 403)
-				assert(~body.error.indexOf('invalid tag'))
-				cb()
-			})
-		})
+				assert.equal(res.statusCode, 403);
+				assert(body.error.indexOf('invalid tag') >= 0);
+				cb();
+			});
+		});
 
 		it('add tag - good', function(cb) {
 			server.add_tag('testpkg-tag', 'tagtagtag', '0.0.1', function(res, body) {
-				assert.equal(res.statusCode, 201)
-				assert(~body.ok.indexOf('tagged'))
-				cb()
-			})
-		})
-	})
-}
+				assert.equal(res.statusCode, 201);
+				assert(body.ok.indexOf('tagged') >=0);
+				cb();
+			});
+		});
+	});
+};

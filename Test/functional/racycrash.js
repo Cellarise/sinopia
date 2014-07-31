@@ -1,12 +1,14 @@
-var assert = require('assert')
-  , ex = module.exports
+/* global describe, it, before */
+"use strict";
+
+var assert = require('assert');
 
 module.exports = function() {
-	var server = process.server
-	var express = process.express
+	var server = process.server;
+	var express = process.express;
 
 	describe('Racy', function() {
-		var on_tarball
+		var on_tarball;
 
 		before(function() {
 			express.get('/testexp-racycrash', function(_, res) {
@@ -22,48 +24,48 @@ module.exports = function() {
 							}
 						}
 					}
-				})
-			})
+				});
+			});
 
 			express.get('/testexp-racycrash/-/test.tar.gz', function(_, res) {
-				on_tarball(res)
-			})
-		})
+				on_tarball(res);
+			});
+		});
 
 		it('should not crash on error if client disconnects', function(_cb) {
 			on_tarball = function(res) {
-				res.header('content-length', 1e6)
-				res.write('test test test\n')
+				res.header('content-length', 1e6);
+				res.write('test test test\n');
 				setTimeout(function() {
-					res.write('test test test\n')
-					res.socket.destroy()
-					cb()
-				}, 200)
-			}
+					res.write('test test test\n');
+					res.socket.destroy();
+					cb();
+				}, 200);
+			};
 
 			server.request({uri:'/testexp-racycrash/-/test.tar.gz'}, function(err, res, body) {
-				assert.equal(body, 'test test test\n')
-			})
+				assert.equal(body, 'test test test\n');
+			});
 
 			function cb() {
 				// test for NOT crashing
 				server.request({uri:'/testexp-racycrash'}, function(err, res, body) {
-					assert.equal(res.statusCode, 200)
-					_cb()
-				})
+					assert.equal(res.statusCode, 200);
+					_cb();
+				});
 			}
-		})
+		});
 
 		it('should not store tarball', function(cb) {
 			on_tarball = function(res) {
-				res.socket.destroy()
-			}
+				res.socket.destroy();
+			};
 
 			server.request({uri:'/testexp-racycrash/-/test.tar.gz'}, function(err, res, body) {
-				assert.equal(body.error, 'internal server error')
-				cb()
-			})
-		})
-	})
-}
+				assert.equal(body.error, 'internal server error');
+				cb();
+			});
+		});
+	});
+};
 

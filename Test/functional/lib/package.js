@@ -1,4 +1,4 @@
-
+"use strict";
 module.exports = function(name, version) {
 	return {
 		"name": name,
@@ -7,6 +7,6 @@ module.exports = function(name, version) {
 			"shasum": "fake",
 			"tarball": "http://localhost:55551/"+escape(name)+"/-/blahblah"
 		}
-	}
-}
+	};
+};
 
