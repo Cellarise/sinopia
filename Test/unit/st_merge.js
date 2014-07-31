@@ -13,7 +13,10 @@ describe('Merge', function () {
             versions: {a: 1, b: 1, c: 1},
             'dist-tags': {}
         };
-        merge(x, {versions: {a: 2, q: 2}});
+        merge(x, {
+                versions: {a: 2, q: 2}
+            }
+        );
         assert.deepEqual(x, {
             versions: {a: 1, b: 1, c: 1, q: 2},
             'dist-tags': {}

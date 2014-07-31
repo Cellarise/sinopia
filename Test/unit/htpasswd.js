@@ -19,14 +19,6 @@ describe('verify_password', function() {
 		assert(verify_password('user', 'pass', '{SHA}nU4eI71bcnBGqeO0t9tXvY1u5oQ='));
 		assert(!verify_password('user', 'p', '{SHA}nU4eI71bcnBGqeO0t9tXvY1u5oQ='));
 	});
-	it('should verify crypt', function() {
-		assert(verify_password('user', 'pass', 'ulINxGnqObi36'));
-		assert(!verify_password('user', 'p', 'ulINxGnqObi36'));
-	});
-	it('should verify crypt-sha', function() {
-		assert(verify_password('user', 'pass', '$6$Qx0eNSKPbxocgA==$ugjO0.z9yOFiaJXJK4ulvGYIxF/KZBV4lGqasArYPqPPT4orZ6NlnIE5KhtiOVs.5EoWxLg1sjp318G8RpI2x1'));
-		assert(!verify_password('user', 'p', '$6$Qx0eNSKPbxocgA==$ugjO0.z9yOFiaJXJK4ulvGYIxF/KZBV4lGqasArYPqPPT4orZ6NlnIE5KhtiOVs.5EoWxLg1sjp318G8RpI2x1'));
-	});
 });
 
 describe('add_user_to_htpasswd', function() {

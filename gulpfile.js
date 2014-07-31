@@ -2,6 +2,7 @@
 var gulp = require("gulp");
 var browserify = require('gulp-browserify');
 var less = require('gulp-less');
+var mocha = require('gulp-mocha');
 
 gulp.task('default', ["scripts"]);
 // Basic usage
@@ -19,4 +20,10 @@ gulp.task('scripts', function() {
             sourceMap: true
         }))
         .pipe(gulp.dest('./lib/static/'));
+    gulp.src('./Test/unit/*', {read: false})
+        .pipe(mocha({
+            reporter: 'node_modules/cellarise-mocha-reporters/json-bamboo'
+        }));
+    gulp.src('./Test/functional/index.js', {read: false})
+        .pipe(mocha({reporter: 'nyan'}));
 });
